@@ -52,6 +52,13 @@ fun main() {
 
 
 fun menuPrincipal() {
+
+    /*
+    val pastaDiretorio = "./out/data/"
+    val diretorio = File(pastaDiretorio)
+    val files = diretorio.listFiles()?.filter { it.isFile }
+    files?.forEach { file -> println(file.name) } ?: println("Nenhum arquivo encontrado")*/
+
     println("$BACKGROUND_BRIGHT_BLACK                              $RESET")
     println("$BACKGROUND_BRIGHT_BLACK$BRIGHT_WHITE$BOLD  JOGO DE CARTAS MEGA TRUNFO  $RESET")
     println("$BACKGROUND_BRIGHT_BLACK$CYAN       Versão em Kotlin       $RESET")
@@ -75,14 +82,31 @@ fun menuPrincipal() {
 
 fun jogar() {
 
-    val arquivo = File("trunfos")
-    val trunfo: String = arquivo.readText()
+    // val arquivo = File("trunfos")
+    // val trunfo: String = arquivo.readText()
 
     println("$BACKGROUND_WHITE$BLACK$BOLD  ESCOLHA UM TRUNFO DA LISTA  $RESET")
-    println("$BACKGROUND_WHITE$BRIGHT_WHITE        e vamos jogar!        $RESET\n")
-
+    println("$BACKGROUND_WHITE$BRIGHT_WHITE        e vamos jogar!        $RESET")
     println("$BRIGHT_GREEN 0 VOLTAR")
-    println("$RESET 1 $trunfo\n\n\n\n")
+
+    // exibe os arquivos do diretório
+    val pastaDiretorio = "./data"
+    val diretorio = File(pastaDiretorio)
+    val files = diretorio.listFiles()?.filter { it.isFile }
+    files?.forEach { file -> println(" " + file.name.replace(".db", "")) } ?: println(" Nenhum arquivo encontrado")
+
+    // lógica para criar os espaços sem quebrar o menu de jogos
+    val cont: Int = diretorio.listFiles().size
+    var loopCont = 5 - cont
+    var espacosEnter: String = ""
+    val espacos: MutableList<String> = mutableListOf()
+    while (loopCont != 0) {
+        espacos.add("\n")
+        loopCont -= 1
+    }
+    espacosEnter = espacos.toString().replace(",", "").replace("[", "").replace("]", "")
+    println("${espacosEnter}")
+
     var opcao: String = readln()
 
     when(opcao) {
@@ -113,11 +137,11 @@ fun criar() {
 }
 
 fun criarNovoJogo() {
-    val arquivo = File("trunfos")
+    // val arquivo = File("trunfos")
 
     println("${BRIGHT_RED}Modo de criação ativado\n${RESET}Digite o nome do novo jogo: (máximo 26 caracteres)")
     var nomeTrunfo: String = readln()
-    arquivo.writeText(nomeTrunfo)
+    // arquivo.writeText(nomeTrunfo)
 
     println("Digite a quantidade de atributos: ")
     var quantAtributos: Int = readln().toInt()
