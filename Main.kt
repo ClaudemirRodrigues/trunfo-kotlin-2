@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.ArrayList
 
 val RESET: String = "\u001b[0m"
 
@@ -87,13 +88,22 @@ fun jogar() {
 
     println("$BACKGROUND_WHITE$BLACK$BOLD  ESCOLHA UM TRUNFO DA LISTA  $RESET")
     println("$BACKGROUND_WHITE$BRIGHT_WHITE        e vamos jogar!        $RESET")
-    println("$BRIGHT_GREEN 0 VOLTAR")
+    println("$BRIGHT_GREEN 0 VOLTAR${RESET}")
 
     // exibe os arquivos do diretório
     val pastaDiretorio = "./data"
     val diretorio = File(pastaDiretorio)
     val files = diretorio.listFiles()?.filter { it.isFile }
-    files?.forEach { file -> println(" " + file.name.replace(".db", "")) } ?: println(" Nenhum arquivo encontrado")
+    // adiciona cada elemento a lista
+    val listaTrunfos: MutableList<String> = mutableListOf()
+    files?.forEach { file -> listaTrunfos.add(file.name) } ?: println("Nenhum arquivo")
+    listaTrunfos.sort()
+    // varre a lista e monta o menu
+    for (file in listaTrunfos) {
+        println(file)
+    }
+
+    // files?.forEach { file -> println(" " + file.name.replace(".db", "")) } ?: println(" Nenhum arquivo encontrado")
 
     // lógica para criar os espaços sem quebrar o menu de jogos
     val cont: Int = diretorio.listFiles().size
@@ -107,12 +117,20 @@ fun jogar() {
     espacosEnter = espacos.toString().replace(",", "").replace("[", "").replace("]", "")
     println("${espacosEnter}")
 
-    var opcao: String = readln()
-
+    var opcao = readln().toInt()
     when(opcao) {
-        "0" -> menuPrincipal()
-        else -> jogar()
+        0 -> menuPrincipal()
+        opcao -> jogo(listaTrunfos[opcao - 1])
     }
+}
+
+fun jogo(caminho: String) {
+
+    println(caminho)
+
+
+
+
 }
 
 fun criar() {
